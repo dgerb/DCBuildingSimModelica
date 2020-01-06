@@ -1,0 +1,2 @@
+﻿fileName = "MeritageA";
+simulateModel("BuildingDC.Grids." + fileName, resultFile=fileName, stopTime=5184000);

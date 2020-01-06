@@ -1,0 +1,33 @@
+Log-file of program ./dymosim
+(generated: Mon May 27 05:25:30 2019)
+
+dymosim started
+... "dsin.txt" loading (dymosim input file)
+... loading "loadCenterDC380" from "C:/Users/Daniel Gerber/Desktop/LBL Sync Windows/ModelicaFiles/DC_Tool/Data/GridDouble/ModelicaMat.mat"
+... loading "loadCenterDC48" from "C:/Users/Daniel Gerber/Desktop/LBL Sync Windows/ModelicaFiles/DC_Tool/Data/GridDouble/ModelicaMat.mat"
+... loading "PVData" from "C:/Users/Daniel Gerber/Desktop/LBL Sync Windows/ModelicaFiles/DC_Tool/Data/GridDouble/ModelicaMat.mat"
+... loading "loadCenterAC480" from "C:/Users/Daniel Gerber/Desktop/LBL Sync Windows/ModelicaFiles/DC_Tool/Data/GridDouble/ModelicaMat.mat"
+... loading "PVData" from "C:/Users/Daniel Gerber/Desktop/LBL Sync Windows/ModelicaFiles/DC_Tool/Data/GridDouble/ModelicaMat.mat"
+... loading "loadCenterAC120" from "C:/Users/Daniel Gerber/Desktop/LBL Sync Windows/ModelicaFiles/DC_Tool/Data/GridDouble/ModelicaMat.mat"
+... "GridDouble.mat" creating (simulation result file)
+
+Integration started at T = 0 using integration method DASSL
+(DAE multi-step solver (dassl/dasslrt of Petzold modified by Dynasim))
+Integration terminated successfully at T = 1209600
+   CPU-time for integration      : 1.4 seconds
+   CPU-time for one GRID interval: 2.81 milli-seconds
+   Number of result points       : 647
+   Number of GRID   points       : 501
+   Number of (successful) steps  : 1232
+   Number of F-evaluations       : 3462
+   Number of H-evaluations       : 2447
+   Number of Jacobian-evaluations: 909
+   Number of (model) time events : 1
+   Number of (U) time events     : 0
+   Number of state    events     : 72
+   Number of step     events     : 0
+   Minimum integration stepsize  : 2.04e-008
+   Maximum integration stepsize  : 9.04e+004
+   Maximum integration order     : 3
+Calling terminal section
+... "dsfinal.txt" creating (final states)

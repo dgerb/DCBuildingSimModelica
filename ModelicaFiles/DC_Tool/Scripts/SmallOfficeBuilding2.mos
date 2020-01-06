@@ -1,0 +1,8 @@
+﻿fileName = "SmallOfficeBuilding2";
+simulateModel("BuildingDC.Grids." + fileName, resultFile=fileName, stopTime=603148);
+createPlot(id = 0,  position = {0, 0, 1000, 400}, filename = fileName,
+  y = {"grid_DC.S[1]", "grid_AC.S[1]", "solar_AC.P", "lighting_AC.P"});
+createPlot(id = 0, subPlot = 2, filename = fileName,
+  y = {"lossPowerDC", "lossPowerAC"});
+createPlot(id = 0, subPlot = 3, filename = fileName,
+  y = {"lossEnergyDC", "lossEnergyAC"});

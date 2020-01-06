@@ -1,0 +1,32 @@
+﻿fileName = "LargeOfficeBuilding";
+//simulateModel("DC_Tool.Grids." + fileName, resultFile=fileName, stopTime=14*24*60*60);
+/*simulateExtendedModel("DC_Tool.Grids." + fileName, resultFile=fileName, stopTime=14*24*60*60,
+  initialNames = {"DCDC.loadCenterDC380.nLoads"},
+  initialValues = {5},
+  finalNames = {"DCDC.loadCenterDC380.nLoads"});*/
+  
+  
+openModel("C:\Users\Daniel Gerber\Desktop\LBL Sync Windows\ModelicaFiles\DC_Tool\DC_Tool.mo");
+translateModel("DC_Tool.Grids." + fileName);
+DCDC.loadCenterDC380.nLoads = 5; // used in: replaceable LoadBranchDC loadBranches[nLoads]
+DCDC.loadCenterDC380.loadBranches[1].converter.percentMax = .5;
+/*DCDC.loadCenterDC380.loadBranches[1].converter.efficiencyTable=
+  [1.0, 2.0;
+  3.0, 4.0];*/
+//DCDC.loadCenterDC380.loadBranches[1].converter.efficiencyTable
+/*DCDC.loadCenterDC380.loadBranches[1].converter.efficiencyTable=
+  [0.1, 0.9720779456193356;
+  0.2, 0.9861921450151059];*/
+DCDC.loadCenterDC380.loadBranches[1].converter.efficiencyTable=
+  [0.1, 0.9720779456193356;
+  0.2, 0.9861921450151059;
+  0.3, 0.9910470292044311;
+  0.4, 0.993049043303122;
+  0.5, 0.993949949647533;
+  0.6, 0.993949949647533;
+  0.7, 0.993949949647533;
+  0.75, 0.993949949647533;
+  0.8, 0.9940000000000001;
+  0.9, 0.9936496475327293;
+  1.0, 0.9936496475327293];
+simulate();

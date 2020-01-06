@@ -1,0 +1,3 @@
+Run Name,Duration (hours),Loss AC (kW-hr),Net Meter AC (kW-hr),Efficiency AC,Loss DC (kW-hr),Net Meter DC (kW-hr),Efficiency DC
+NoSolar,8760,78207.7,-734330.0,88.1%,52032.5,-699395.0,92.1%
+WithSolar,8760,107979.0,-104190.0,83.6%,61948.8,-51411.6,90.6%

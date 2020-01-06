@@ -1,0 +1,2 @@
+﻿fileName = "LoadCenterDCTest";
+simulateModel("DC_Tool.LoadCenters." + fileName, resultFile=fileName, stopTime=7*24*3600, method="dassl", tolerance=1e-4);

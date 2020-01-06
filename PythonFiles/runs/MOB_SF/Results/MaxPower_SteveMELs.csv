@@ -1,0 +1,25 @@
+Grid,Converter,Type,Max Power (kW),Max Power (kW)
+,,,NoSolar,WithSolar
+AC,Transformer,AC Transformer Steve,80.049687500000005,80.049687500000005
+AC,Battery Unified MPPT,Battery Inverter HL,0.0,0.0
+AC,Grid Transformer,1,224.43412499999999,313.73121874999998
+AC,Solar Unified MPPT,String Inverter L,0.0,362.393125
+DC,Transformer,DC-DC HL 1-5,123.15984374999999,123.15984374999999
+DC,Battery Unified MPPT,Power Optimizer H,0.0,0.0
+DC,Grid Transformer,1,209.59553124999999,316.400125
+DC,Grid Tie Inverter,Grid Tie Inverter,209.59553124999999,325.28840624999998
+DC,Solar Unified MPPT,Power Optimizer H,0.0,362.393125
+AC,InteriorEquipment:Electricity [J](Hourly),Rectifier LL 0-1,78.035164062500002,78.035164062500002
+AC,Heating:Electricity [J](Hourly),Rectifier LL 1-5,173.90415625,176.03399999999999
+AC,Cooling:Electricity [J](Hourly),Rectifier LL 1-5,63.04321484375,63.04321484375
+AC,InteriorLights:Electricity [J](Hourly),Rectifier LED HL,52.126628906249998,52.126628906249998
+AC,ExteriorLights:Electricity [J](Hourly),Rectifier LED HL,16.5851875,16.5851875
+AC,Fans:Electricity [J](Hourly),Rectifier LL 1-5,7.1301044921874999,7.1301044921874999
+AC,Pumps:Electricity [J](Hourly),Rectifier LL 1-5,0.0093096990585327145,0.0093096990585327145
+DC,InteriorLights:Electricity [J](Hourly),DC-DC LED Driver LL,49.750332031249997,49.750332031249997
+DC,ExteriorLights:Electricity [J](Hourly),DC-DC LED Driver LL,15.8291171875,15.8291171875
+DC,InteriorEquipment:Electricity [J](Hourly),1,70.403328125000002,70.403328125000002
+DC,Heating:Electricity [J](Hourly),1,156.79203125000001,158.7123125
+DC,Cooling:Electricity [J](Hourly),1,56.839812500000001,56.839812500000001
+DC,Fans:Electricity [J](Hourly),1,6.4285532226562498,6.4285532226562498
+DC,Pumps:Electricity [J](Hourly),1,0.0084400939941406249,0.0084400939941406249

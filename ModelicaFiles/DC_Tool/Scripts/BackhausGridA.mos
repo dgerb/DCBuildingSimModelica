@@ -1,0 +1,6 @@
+﻿fileName = "BackhausGridA";
+simulateModel("BuildingDC.Grids." + fileName, resultFile=fileName,
+  stopTime=86164);
+createPlot();
+/*simulateMultiExtendedModel("BuildingDC.Grids." + fileName, resultFile=fileName,
+  stopTime=86164, initialNames={"matched"}, initialValues=[1.0; -1.0], finalNames={"efficiency"});*/

@@ -1,0 +1,10 @@
+﻿fileName = "SmallOfficeBuilding5";
+simulateModel("BuildingDC.Grids." + fileName, resultFile=fileName, stopTime=603148);
+createPlot(id = 0,  position = {0, 0, 1000, 400}, filename = fileName,
+  y = {"lossPowerAC", "lossPowerDC"});
+createPlot(id = 0, subPlot = 2, filename = fileName,
+  y = {"tap_DC.Preal_in", "tap_DC.Preal_out1", "tap_DC.Preal_out2"});
+createPlot(id = 0, subPlot = 3, filename = fileName,
+  y = {"tap_AC.Preal_in", "tap_AC.Preal_out1", "tap_AC.Preal_out2"});
+createPlot(id = 0, subPlot = 4, filename = fileName,
+  y = {"batt_AC.SOC", "batt_DC.SOC", "efficiencyAC", "efficiencyDC"});

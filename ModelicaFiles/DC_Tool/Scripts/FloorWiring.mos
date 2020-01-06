@@ -1,0 +1,6 @@
+﻿fileName = "FloorWiring";
+simulateModel("BuildingDC.Transmission.Examples." + fileName, resultFile=fileName, stopTime=1);
+createPlot(id = 0,  position = {0, 0, 1000, 400}, filename = fileName,
+  y = {"floorWiringDC.terminal_n.v[1]", "floorWiringDC.terminal_p.v[1]"});
+createPlot(id = 0, subPlot = 2, filename = fileName,
+  y = {"floorWiringDC.terminal_n.i[1]", "floorWiringDC.TotalR", "floorWiringDC.numUnits"});

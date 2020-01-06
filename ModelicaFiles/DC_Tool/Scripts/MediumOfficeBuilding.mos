@@ -1,0 +1,6 @@
+﻿fileName = "MediumOfficeBuilding";
+simulateModel("BuildingDC.Grids." + fileName, resultFile=fileName, stopTime=603148);
+createPlot(id = 0,  position = {0, 0, 1000, 400}, filename = fileName,
+  y = {"GridA.lossPower", "GridC.lossPower"});
+createPlot(id = 0, subPlot = 2, filename = fileName,
+  y = {"GridA.batt.SOC", "GridC.batt.SOC", "GridA.efficiency", "GridC.efficiency"});

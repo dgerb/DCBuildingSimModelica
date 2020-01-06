@@ -1,0 +1,15 @@
+Log-file of program ./dymosim
+(generated: Wed Nov 07 12:34:26 2018)
+
+dymosim started
+... "dsin.txt" loading (dymosim input file)
+... loading "LoadData" from "C:/Users/Daniel Gerber/Desktop/LBL Sync Windows/ModelicaFiles/DC_Tool/Scripts/ModelicaMatDCToolTest.mat"
+The following error was detected at time: 0
+An error occurred in reading the MAT file
+The stack of functions is:
+Modelica.Blocks.Sources.CombiTimeTable.readTableData
+Modelica.Blocks.Sources.CombiTimeTable.readTableData(
+dataTable1.tableID, 
+false, 
+dataTable1.verboseRead)
+Error: Failed to start model.

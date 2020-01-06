@@ -1,0 +1,4 @@
+﻿fileName = "DCSplitterTest2";
+simulateModel("BuildingDC.Transmission.Examples." + fileName, resultFile=fileName, stopTime=1);
+createPlot(id = 0,  position = {0, 0, 1000, 400}, filename = fileName,
+  y = {"dCPowerTap.Preal_in", "dCPowerTap.Preal_out1", "dCPowerTap.Preal_out2"});

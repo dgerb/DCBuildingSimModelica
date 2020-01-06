@@ -1,0 +1,2 @@
+﻿fileName = "SanLeandroBuilding";
+simulateModel("BuildingDC.Grids." + fileName, resultFile=fileName, stopTime=603148);

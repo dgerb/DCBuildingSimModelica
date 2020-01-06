@@ -1,0 +1,1111 @@
+#1
+char Aclass(3,24)
+Adymosim
+1.4
+Modelica experiment file
+
+
+#    Experiment parameters
+double experiment(7,1)
+       0                   # StartTime    Time at which integration starts
+                           #              (and linearization and trimming time)
+ 3.1536000000000000E+007   # StopTime     Time at which integration stops
+       0                   # Increment    Communication step size, if > 0
+     500                   # nInterval    Number of communication intervals, if > 0
+ 1.0000000000000000E-004   # Tolerance    Relative precision of signals for
+                           #              simulation, linearization and trimming
+       0                   # MaxFixedStep Maximum step size of fixed step size
+                           #              integrators, if > 0.0
+       8                   # Algorithm    Integration algorithm as integer (1...28)
+                           #
+                           #             | model|       |        | dense | state |
+                           # Algorithm   | typ  | stiff | order  | output| event |
+                           # ------------+------+-------+--------+-------+-------+
+                           #  1 | deabm  |  ode |   no  |  1-12  |  yes  |   no  |
+                           #  2 | lsode1 |  ode |   no  |  1-12  |  yes  |   no  |
+                           #  3 | lsode2 |  ode |  yes  |  1-5   |  yes  |   no  |
+                           #  4 | lsodar |  ode |  both |1-12,1-5|  yes  |  yes  |
+                           #  5 | dopri5 |  ode |   no  |   5    |   no  |   no  |
+                           #  6 | dopri8 |  ode |   no  |   8    |   no  |   no  |
+                           #  7 | grk4t  |  ode |  yes  |   4    |   no  |   no  |
+                           #  8 | dassl  |  dae |  yes  |  1-5   |  yes  |  yes  |
+                           #  9 | odassl | hdae |  yes  |  1-5   |  yes  |  yes  |
+                           # 10 | mexx   | hdae |   no  |  2-24  |   no  |   no  |
+                           # 11 | euler  |  ode |   no  |   1    |   no  |  yes  |
+                           # 12 | rkfix2 |  ode |   no  |   2    |   no  |  yes  |
+                           # 13 | rkfix3 |  ode |   no  |   3    |   no  |  yes  |
+                           # 14 | rkfix4 |  ode |   no  |   4    |   no  |  yes  |
+                           #>=14| others |  ode |yes/no |  2-5   |   yes |  yes  |
+                           # ---+--------+------+-------+--------+-------+-------+
+                           # euler and rkfix have fixed stepsize.
+
+
+#    Method tuning parameters
+double method(27,1)
+       1                   # grid     type of communication time grid, defined by
+                           #          = 1: equidistant points ("Increment/nInterval")
+                           #          = 2: vector of grid points ("tgrid")
+                           #          = 3: variable step integrator (automatically)
+                           #          = 4: model (call of "increment" in Dymola, e.g.
+                           #                      incr=Time > 2 then 0 else 0.1
+                           #                      dummy=increment(incr))
+                           #          grid = 1,3 is stopped by "StopTime"
+                           #          grid = 2   is stopped by "tgrid(last)"
+                           #          grid = 4   runs forever (stopped by model)
+       1                   # nt       Use every NT time instant, if grid = 3
+       3                   # dense    1/2/3 restart/step/interpolate GRID points
+       1                   # evgrid   0/1 do not/save event points in comm. time grid
+       1                   # evu      0/1 U-discontinuity does not/trigger events
+       0                   # evuord       U-discontinuity order to consider (0,1,...)
+       0                   # error    0/1/2 One message/warning/error messages
+       0                   # jac      0/1 Compute jacobian numerically/by BLOCKJ
+       0                   # xd0c     0/1 Compute/set XD0
+       0                   # f3       0/1 Ignore/use F3 of HDAE (= index 1)
+       0                   # f4       0/1 Ignore/use F4 of HDAE (= index 2)
+       0                   # f5       0/1 Ignore/use F5 of HDAE (= invar.)
+       0                   # debug    flags for debug information (1<<0 uses pdebug) 
+     100                   # pdebug       priority of debug information (1...100)
+       0                   # fmax     Maximum number of evaluations of BLOCKF, if > 0
+       0                   # ordmax   Maximum allowed integration order, if > 0
+       0                   # hmax     Maximum absolute stepsize, if > 0
+       0                   # hmin     Minimum absolute stepsize, if > 0 (use with care!)
+       0                   # h0       Stepsize to be attempted on first step, if > 0
+ 2.0000000000000000E-014   # teps     Bound to check, if 2 equal time instants
+ 1.0000000000000000E-010   # eveps    Hysteresis epsilon at event points
+      20                   # eviter   Maximum number of event iterations
+ 9.9999999999999995E-007   # delaym   Minimum time increment in delay buffers
+       1                   # fexcep   0/1 floating exception crashes/stops dymosim
+       1                   # tscale   clock-time = tscale*simulation-time, if grid = 5
+                           #          > 1: simulation too slow
+                           #          = 1: simulation-time = real-time
+                           #          < 1: simulation too fast
+       1                   # shared   (not used)
+    2473                   # memkey   (not used)
+
+
+#    Output parameters
+int settings(13,1)
+ 0                         # lprec    0/1 do not/store result data in double
+ 1                         # lx       0/1 do not/store x  (state variables)
+ 1                         # lxd      0/1 do not/store xd (derivative of states)
+ 1                         # lu       0/1 do not/store u  (input     signals)
+ 1                         # ly       0/1 do not/store y  (output    signals)
+ 0                         # lz       0/1 do not/store z  (indicator signals)
+ 1                         # lw       0/1 do not/store w  (auxiliary signals)
+ 1                         # la       0/1 do not/store a  (alias     signals)
+ 0                         # lperf    0/1 do not/store performance indicators
+ 0                         # levent   0/1 do not/store event point
+ 1                         # lres     0/1 do not/store results on result file
+ 0                         # lshare   0/1 do not/store info data for shared memory on dsshare.txt
+ 1                         # lform    0/1 ASCII/Matlab-binary storage format of results
+                           #              (for simulation/linearization; not for trimming)
+
+
+#    Names of initial variables
+char initialName(238,32)
+_dummy
+_derdummy
+startTime
+calibrateMode
+solarCapacity
+converterOversizeRatio
+batteryCapacity
+batteryChargingPower
+battChgEff
+battDisChgEff
+partitionedMPPT
+source1.potentialReference
+source1.definiteReference
+source1.S[1]
+source1.S[2]
+source1.phi
+source1.terminal.v[1]
+source1.terminal.v[2]
+source1.terminal.theta[1]
+source1.f
+source1.V
+source1.phiSou
+source1.thetaRel
+load1.linearized
+load1.mode
+load1.P_nominal
+load1.V_nominal
+load1.initMode
+load1.v[2]
+load1.S[1]
+load1.S[2]
+load1.P
+load1.der(P)
+load1.terminal.v[2]
+load1.y_internal
+load1.load
+load1.eps
+load1.oneEps
+load1.absDV
+aC1DC2.terminal_n.i[1]
+aC1DC2.terminal_n.i[2]
+aC1DC2.terminal_n.der(i[1])
+aC1DC2.terminal_n.der(i[2])
+aC1DC2.terminal_p.v[2]
+aC1DC2.terminal_p.i[1]
+aC1DC2.terminal_p.der(i[1])
+aC1DC2.v_n
+aC1DC2.der(i_p)
+aC1DC2.i_n
+aC1DC2.lossPower
+aC1DC2.der(lossPower)
+aC1DC2.V1
+aC1DC2.V2
+aC1DC2.peakPower
+aC1DC2.efficiencyTable[1, 1]
+aC1DC2.efficiencyTable[1, 2]
+aC1DC2.efficiencyTable[2, 1]
+aC1DC2.efficiencyTable[2, 2]
+aC1DC2.efficiencyTable[3, 1]
+aC1DC2.efficiencyTable[3, 2]
+aC1DC2.efficiencyTable[4, 1]
+aC1DC2.efficiencyTable[4, 2]
+aC1DC2.efficiencyTable[5, 1]
+aC1DC2.efficiencyTable[5, 2]
+aC1DC2.efficiencyTable[6, 1]
+aC1DC2.efficiencyTable[6, 2]
+aC1DC2.efficiencyTable[7, 1]
+aC1DC2.efficiencyTable[7, 2]
+aC1DC2.efficiencyTable[8, 1]
+aC1DC2.efficiencyTable[8, 2]
+aC1DC2.efficiencyTable[9, 1]
+aC1DC2.efficiencyTable[9, 2]
+aC1DC2.efficiencyTable[10, 1]
+aC1DC2.efficiencyTable[10, 2]
+aC1DC2.efficiencyTable[11, 1]
+aC1DC2.efficiencyTable[11, 2]
+aC1DC2.percentMax
+aC1DC2.fixV1
+aC1DC2.fixV2
+aC1DC2.ground_1
+aC1DC2.ground_2
+aC1DC2.eta
+aC1DC2.der(eta)
+aC1DC2.maxPower
+aC1DC2.percentPower
+aC1DC2.der(percentPower)
+aC1DC2.conversionFactor
+aC1DC2.Pcomp_p[1]
+aC1DC2.Pcomp_p[2]
+aC1DC2.der(Pcomp_p[1])
+aC1DC2.Pcomp_n[1]
+aC1DC2.Pcomp_n[2]
+aC1DC2.der(Pcomp_n[1])
+aC1DC2.Preal_p
+aC1DC2.der(Preal_p)
+aC1DC2.Preal_n
+aC1DC2.der(Preal_n)
+aC1DC2.tab.table[1, 1]
+aC1DC2.tab.table[1, 2]
+aC1DC2.tab.table[2, 1]
+aC1DC2.tab.table[2, 2]
+aC1DC2.tab.table[3, 1]
+aC1DC2.tab.table[3, 2]
+aC1DC2.tab.table[4, 1]
+aC1DC2.tab.table[4, 2]
+aC1DC2.tab.table[5, 1]
+aC1DC2.tab.table[5, 2]
+aC1DC2.tab.table[6, 1]
+aC1DC2.tab.table[6, 2]
+aC1DC2.tab.table[7, 1]
+aC1DC2.tab.table[7, 2]
+aC1DC2.tab.table[8, 1]
+aC1DC2.tab.table[8, 2]
+aC1DC2.tab.table[9, 1]
+aC1DC2.tab.table[9, 2]
+aC1DC2.tab.table[10, 1]
+aC1DC2.tab.table[10, 2]
+aC1DC2.tab.table[11, 1]
+aC1DC2.tab.table[11, 2]
+aC1DC2.tab.offset
+aC1DC2.tab.constantExtrapolation
+aC1DC2.tab.nCol
+aC1DC2.tab.offsetVector[1, 1]
+aC1DC2.tab.offsetVector[1, 2]
+aC1DC2.tab.offsetVector[2, 1]
+aC1DC2.tab.offsetVector[2, 2]
+aC1DC2.tab.offsetVector[3, 1]
+aC1DC2.tab.offsetVector[3, 2]
+aC1DC2.tab.offsetVector[4, 1]
+aC1DC2.tab.offsetVector[4, 2]
+aC1DC2.tab.offsetVector[5, 1]
+aC1DC2.tab.offsetVector[5, 2]
+aC1DC2.tab.offsetVector[6, 1]
+aC1DC2.tab.offsetVector[6, 2]
+aC1DC2.tab.offsetVector[7, 1]
+aC1DC2.tab.offsetVector[7, 2]
+aC1DC2.tab.offsetVector[8, 1]
+aC1DC2.tab.offsetVector[8, 2]
+aC1DC2.tab.offsetVector[9, 1]
+aC1DC2.tab.offsetVector[9, 2]
+aC1DC2.tab.offsetVector[10, 1]
+aC1DC2.tab.offsetVector[10, 2]
+aC1DC2.tab.offsetVector[11, 1]
+aC1DC2.tab.offsetVector[11, 2]
+aC1DC2.tab.offsetVector[12, 1]
+aC1DC2.tab.offsetVector[12, 2]
+aC1DC2.tab.offsetVector[13, 1]
+aC1DC2.tab.offsetVector[13, 2]
+aC1DC2.tab.tab.n
+aC1DC2.tab.tab.tableOnFile
+aC1DC2.tab.tab.table[1, 1]
+aC1DC2.tab.tab.table[1, 2]
+aC1DC2.tab.tab.table[2, 1]
+aC1DC2.tab.tab.table[2, 2]
+aC1DC2.tab.tab.table[3, 1]
+aC1DC2.tab.tab.table[3, 2]
+aC1DC2.tab.tab.table[4, 1]
+aC1DC2.tab.tab.table[4, 2]
+aC1DC2.tab.tab.table[5, 1]
+aC1DC2.tab.tab.table[5, 2]
+aC1DC2.tab.tab.table[6, 1]
+aC1DC2.tab.tab.table[6, 2]
+aC1DC2.tab.tab.table[7, 1]
+aC1DC2.tab.tab.table[7, 2]
+aC1DC2.tab.tab.table[8, 1]
+aC1DC2.tab.tab.table[8, 2]
+aC1DC2.tab.tab.table[9, 1]
+aC1DC2.tab.tab.table[9, 2]
+aC1DC2.tab.tab.table[10, 1]
+aC1DC2.tab.tab.table[10, 2]
+aC1DC2.tab.tab.table[11, 1]
+aC1DC2.tab.tab.table[11, 2]
+aC1DC2.tab.tab.table[12, 1]
+aC1DC2.tab.tab.table[12, 2]
+aC1DC2.tab.tab.table[13, 1]
+aC1DC2.tab.tab.table[13, 2]
+aC1DC2.tab.tab.verboseRead
+aC1DC2.tab.tab.columns[1]
+aC1DC2.tab.tab.smoothness
+aC1DC2.tab.tab.tableID.id
+aC1DC2.tab.tab.tableOnFileRead
+aC1DC2.outputPower
+aC1DC2.der(outputPower)
+wiringAC1_1.lossPower
+wiringAC1_1.R
+wiringAC1_1.shortOut
+wiringAC1_1.Preal_p
+wiringAC1_1.Preal_n
+dataTable1.nout
+dataTable1.y[1]
+dataTable1.y[2]
+dataTable1.y[4]
+dataTable1.y[5]
+dataTable1.y[6]
+dataTable1.y[7]
+dataTable1.y[8]
+dataTable1.y[9]
+dataTable1.y[10]
+dataTable1.y[11]
+dataTable1.y[12]
+dataTable1.y[13]
+dataTable1.tableOnFile
+dataTable1.verboseRead
+dataTable1.columns[1]
+dataTable1.columns[2]
+dataTable1.columns[3]
+dataTable1.columns[4]
+dataTable1.columns[5]
+dataTable1.columns[6]
+dataTable1.columns[7]
+dataTable1.columns[8]
+dataTable1.columns[9]
+dataTable1.columns[10]
+dataTable1.columns[11]
+dataTable1.columns[12]
+dataTable1.columns[13]
+dataTable1.smoothness
+dataTable1.extrapolation
+dataTable1.offset[1]
+dataTable1.startTime
+dataTable1.t_min
+dataTable1.t_max
+dataTable1.p_offset[1]
+dataTable1.p_offset[2]
+dataTable1.p_offset[3]
+dataTable1.p_offset[4]
+dataTable1.p_offset[5]
+dataTable1.p_offset[6]
+dataTable1.p_offset[7]
+dataTable1.p_offset[8]
+dataTable1.p_offset[9]
+dataTable1.p_offset[10]
+dataTable1.p_offset[11]
+dataTable1.p_offset[12]
+dataTable1.p_offset[13]
+dataTable1.tableID.id
+dataTable1.nextTimeEvent
+dataTable1.tableOnFileRead
+
+double initialValue(238,6)
+ -1       1                       0                       0                
+  2     0   # _dummy
+  0       0                       0                       0                
+  3     0   # _derdummy
+ -1       0                       0                       0                
+  1   280   # startTime
+ -1       1                       0                       0                
+  1   281   # calibrateMode
+ -1       1                       0                       0                
+  1   280   # solarCapacity
+ -1       1                       0                       0                
+  1   280   # converterOversizeRatio
+ -1       0                       0                       0                
+  1   280   # batteryCapacity
+ -1   16500                       0                       0                
+  1   280   # batteryChargingPower
+ -1 9.0000000000000002E-001       0                 1.0000000000000000E+100
+  1   280   # battChgEff
+ -1 9.0000000000000002E-001       0                 1.0000000000000000E+100
+  1   280   # battDisChgEff
+ -1       0                       0                       0                
+  1   281   # partitionedMPPT
+  0       1                       0                       0                
+  6   257   # source1.potentialReference
+  0       0                       0                       0                
+  6   257   # source1.definiteReference
+  0       0                       0                       0                
+  6   256   # source1.S[1]
+  0       0                       0                       0                
+  6   256   # source1.S[2]
+  0       0                       0                       0                
+  6   256   # source1.phi
+  0       0                       0                       0                
+  6   260   # source1.terminal.v[1]
+  0       0                       0                       0                
+  6   260   # source1.terminal.v[2]
+  0       0                       0                       0                
+  6   260   # source1.terminal.theta[1]
+ -1      60                       0                       0                
+  1   280   # source1.f
+ -1     120                       0                       0                
+  1   280   # source1.V
+ -1       0                       0                       0                
+  1   280   # source1.phiSou
+  0       0                       0                       0                
+  6  1280   # source1.thetaRel
+  0       0                       0                       0                
+  6   257   # load1.linearized
+  0       3                       1                       4                
+  6   258   # load1.mode
+ -1       0                       0                       0                
+  1   280   # load1.P_nominal
+  0      48                       0                 1.0000000000000000E+100
+  6   256   # load1.V_nominal
+  0       1                       1                       2                
+  6   258   # load1.initMode
+  0       0                       0                       0                
+  6   256   # load1.v[2]
+  0       0                       0                       0                
+  6   256   # load1.S[1]
+  0       0                       0                       0                
+  6   256   # load1.S[2]
+  0       0                       0                       0                
+  6   256   # load1.P
+  0       0                       0                       0                
+  6   256   # load1.der(P)
+  0       0                       0                       0                
+  6   260   # load1.terminal.v[2]
+  0       1                       0                       0                
+  6  1280   # load1.y_internal
+  0       1                 1.0000000000000000E-010       1                
+  6  1280   # load1.load
+  0 1.0000000000000000E-010       0                       0                
+  6  1280   # load1.eps
+  0 9.9999999989999999E-001       0                       0                
+  6  1280   # load1.oneEps
+  0       0                       0                       0                
+  6  1280   # load1.absDV
+  0       0                       0                       0                
+  6   420   # aC1DC2.terminal_n.i[1]
+  0       0                       0                       0                
+  6   420   # aC1DC2.terminal_n.i[2]
+  0       0                       0                       0                
+  6   260   # aC1DC2.terminal_n.der(i[1])
+  0       0                       0                       0                
+  6   260   # aC1DC2.terminal_n.der(i[2])
+  0       0                       0                       0                
+  6   260   # aC1DC2.terminal_p.v[2]
+  0       0                       0                       0                
+  6   388   # aC1DC2.terminal_p.i[1]
+  0       0                       0                       0                
+  6   260   # aC1DC2.terminal_p.der(i[1])
+  0       0                       0                       0                
+  6   256   # aC1DC2.v_n
+  0       0                       0                       0                
+  6   256   # aC1DC2.der(i_p)
+  0       0                       0                       0                
+  6   256   # aC1DC2.i_n
+  0       0                       0                       0                
+  6   256   # aC1DC2.lossPower
+  0       0                       0                       0                
+  6   256   # aC1DC2.der(lossPower)
+ -1     120                       0                       0                
+  1   280   # aC1DC2.V1
+ -1      48                       0                       0                
+  1   280   # aC1DC2.V2
+ -1       0                       0                 1.0000000000000000E+100
+  1   280   # aC1DC2.peakPower
+ -1 1.0000000000000001E-001       0                       0                
+  1   280   # aC1DC2.efficiencyTable[1, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[1, 2]
+ -1 2.0000000000000001E-001       0                       0                
+  1   280   # aC1DC2.efficiencyTable[2, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[2, 2]
+ -1 2.9999999999999999E-001       0                       0                
+  1   280   # aC1DC2.efficiencyTable[3, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[3, 2]
+ -1 4.0000000000000002E-001       0                       0                
+  1   280   # aC1DC2.efficiencyTable[4, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[4, 2]
+ -1 5.0000000000000000E-001       0                       0                
+  1   280   # aC1DC2.efficiencyTable[5, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[5, 2]
+ -1 5.9999999999999998E-001       0                       0                
+  1   280   # aC1DC2.efficiencyTable[6, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[6, 2]
+ -1 6.9999999999999996E-001       0                       0                
+  1   280   # aC1DC2.efficiencyTable[7, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[7, 2]
+ -1 7.5000000000000000E-001       0                       0                
+  1   280   # aC1DC2.efficiencyTable[8, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[8, 2]
+ -1 8.0000000000000004E-001       0                       0                
+  1   280   # aC1DC2.efficiencyTable[9, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[9, 2]
+ -1 9.0000000000000002E-001       0                       0                
+  1   280   # aC1DC2.efficiencyTable[10, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[10, 2]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[11, 1]
+ -1       1                       0                       0                
+  1   280   # aC1DC2.efficiencyTable[11, 2]
+  0      -1                 -1.0000000000000000E+100       1                
+  6   256   # aC1DC2.percentMax
+  0       0                       0                       0                
+  6   257   # aC1DC2.fixV1
+  0       1                       0                       0                
+  6   257   # aC1DC2.fixV2
+  0       0                       0                       0                
+  6   257   # aC1DC2.ground_1
+  0       1                       0                       0                
+  6   257   # aC1DC2.ground_2
+  0       0                       0                       1                
+  6   256   # aC1DC2.eta
+  0       0                       0                       0                
+  6   256   # aC1DC2.der(eta)
+  0       0                       0                 1.0000000000000000E+100
+  6   256   # aC1DC2.maxPower
+  0       0                       0                       0                
+  6   256   # aC1DC2.percentPower
+  0       0                       0                       0                
+  6   256   # aC1DC2.der(percentPower)
+  0 1.0000000000000001E-015 1.0000000000000001E-015 1.0000000000000000E+100
+  6   256   # aC1DC2.conversionFactor
+  0       0                       0                       0                
+  6   256   # aC1DC2.Pcomp_p[1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.Pcomp_p[2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.der(Pcomp_p[1])
+  0       0                       0                       0                
+  6   256   # aC1DC2.Pcomp_n[1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.Pcomp_n[2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.der(Pcomp_n[1])
+  0       0                       0                       0                
+  6   256   # aC1DC2.Preal_p
+  0       0                       0                       0                
+  6   256   # aC1DC2.der(Preal_p)
+  0       0                       0                       0                
+  6   256   # aC1DC2.Preal_n
+  0       0                       0                       0                
+  6   256   # aC1DC2.der(Preal_n)
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[1, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[1, 2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[2, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[2, 2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[3, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[3, 2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[4, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[4, 2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[5, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[5, 2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[6, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[6, 2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[7, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[7, 2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[8, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[8, 2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[9, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[9, 2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[10, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[10, 2]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[11, 1]
+  0       0                       0                       0                
+  6   256   # aC1DC2.tab.table[11, 2]
+ -1       0                       0                       0                
+  1   280   # aC1DC2.tab.offset
+  0       1                       0                       0                
+  6   257   # aC1DC2.tab.constantExtrapolation
+  0      13                       0                       0                
+  6  1282   # aC1DC2.tab.nCol
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[1, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[1, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[2, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[2, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[3, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[3, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[4, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[4, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[5, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[5, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[6, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[6, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[7, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[7, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[8, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[8, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[9, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[9, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[10, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[10, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[11, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[11, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[12, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[12, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[13, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.offsetVector[13, 2]
+  0       1                       0                       0                
+  6  1282   # aC1DC2.tab.tab.n
+  0       0                       0                       0                
+  6  1281   # aC1DC2.tab.tab.tableOnFile
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[1, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[1, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[2, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[2, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[3, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[3, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[4, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[4, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[5, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[5, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[6, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[6, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[7, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[7, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[8, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[8, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[9, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[9, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[10, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[10, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[11, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[11, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[12, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[12, 2]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[13, 1]
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.table[13, 2]
+ -1       1                       0                       0                
+  1  1305   # aC1DC2.tab.tab.verboseRead
+  0       2                       0                       0                
+  6  1282   # aC1DC2.tab.tab.columns[1]
+  0       1                       1                       3                
+  6  1282   # aC1DC2.tab.tab.smoothness
+  0       0                       0                       0                
+  6  1282   # aC1DC2.tab.tab.tableID.id
+  0       0                       0                       0                
+  6  1280   # aC1DC2.tab.tab.tableOnFileRead
+  0       0                       0                       0                
+  6   256   # aC1DC2.outputPower
+  0       0                       0                       0                
+  6   256   # aC1DC2.der(outputPower)
+  0       0                       0                       0                
+  6   256   # wiringAC1_1.lossPower
+ -1 2.6650000000000000E-002       0                       0                
+  1   280   # wiringAC1_1.R
+ -1       0                       0                       0                
+  1   281   # wiringAC1_1.shortOut
+  0       0                       0                       0                
+  6   256   # wiringAC1_1.Preal_p
+  0       0                       0                       0                
+  6   256   # wiringAC1_1.Preal_n
+  0      13                       1                 1.0000000000000000E+100
+  6   258   # dataTable1.nout
+  0       0                       0                       0                
+  6   256   # dataTable1.y[1]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[2]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[4]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[5]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[6]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[7]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[8]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[9]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[10]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[11]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[12]
+  0       0                       0                       0                
+  6   256   # dataTable1.y[13]
+  0       1                       0                       0                
+  6   257   # dataTable1.tableOnFile
+ -1       1                       0                       0                
+  1   281   # dataTable1.verboseRead
+ -1       1                       0                       0                
+  1   282   # dataTable1.columns[1]
+ -1       2                       0                       0                
+  1   282   # dataTable1.columns[2]
+ -1       3                       0                       0                
+  1   282   # dataTable1.columns[3]
+ -1       4                       0                       0                
+  1   282   # dataTable1.columns[4]
+ -1       5                       0                       0                
+  1   282   # dataTable1.columns[5]
+ -1       6                       0                       0                
+  1   282   # dataTable1.columns[6]
+ -1       7                       0                       0                
+  1   282   # dataTable1.columns[7]
+ -1       8                       0                       0                
+  1   282   # dataTable1.columns[8]
+ -1       9                       0                       0                
+  1   282   # dataTable1.columns[9]
+ -1      10                       0                       0                
+  1   282   # dataTable1.columns[10]
+ -1      11                       0                       0                
+  1   282   # dataTable1.columns[11]
+ -1      12                       0                       0                
+  1   282   # dataTable1.columns[12]
+ -1      13                       0                       0                
+  1   282   # dataTable1.columns[13]
+  0       2                       1                       3                
+  6   258   # dataTable1.smoothness
+ -1       1                       1                       4                
+  1   282   # dataTable1.extrapolation
+ -1       0                       0                       0                
+  1   280   # dataTable1.offset[1]
+  0       0                       0                       0                
+  6   256   # dataTable1.startTime
+  0       0                       0                       0                
+  6   256   # dataTable1.t_min
+  0       0                       0                       0                
+  6   256   # dataTable1.t_max
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[1]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[2]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[3]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[4]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[5]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[6]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[7]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[8]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[9]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[10]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[11]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[12]
+  0       0                       0                       0                
+  6  1280   # dataTable1.p_offset[13]
+  0       0                       0                       0                
+  6  1282   # dataTable1.tableID.id
+  0       0                       0                       0                
+  6  1352   # dataTable1.nextTimeEvent
+  0       0                       0                       0                
+  6  1280   # dataTable1.tableOnFileRead
+
+
+# Matrix with 6 columns defining the initial value calculation
+# (columns 5 and 6 are not utilized for the calculation but are
+#  reported by dymosim via dymosim -i for user convenience):
+#
+# column 1: Type of initial value
+#           = -2: special case: for continuing simulation (column 2 = value)
+#           = -1: fixed value (column 2 = fixed value)
+#           =  0: free value, i.e., no restriction (column 2 = initial value)
+#           >  0: desired value (column 1 = weight for optimization
+#                                column 2 = desired value)
+#                 use weight=1, since automatic scaling usually
+#                 leads to equally weighted terms
+# column 2: fixed, free or desired value according to column 1.
+# column 3: Minimum value (ignored, if Minimum >= Maximum).
+# column 4: Maximum value (ignored, if Minimum >= Maximum).
+#           Minimum and maximum restrict the search range in initial
+#           value calculation. They might also be used for scaling.
+# column 5: Category of variable.
+#           = 1: parameter.
+#           = 2: state.
+#           = 3: state derivative.
+#           = 4: output.
+#           = 5: input.
+#           = 6: auxiliary variable.
+# column 6: Data type of variable and flags according to dsBaseType
+#  <value>&3= 0: real.
+#  <value>&3= 1: boolean.
+#  <value>&3= 2: integer.
+#
+# Initial values are calculated according to the following procedure:
+#
+# - If parameters, states and inputs are FIXED, and other variables
+#   are FREE, no special action takes place (default setting).
+#
+# - If there are only FIXED and FREE variables and the number of
+#   FREE parameters, states and inputs is IDENTICAL to the number of
+#   FIXED state derivatives, outputs and auxiliary variables, a non-linear
+#   equation is solved to determine a consistent set of initial conditions.
+#
+# - In all other cases the following optimization problem is solved:
+#      min( sum( weight(i)*( (value(i) - DESIRED(i))/scale(i) )^2 ) )
+#   under the constraint that the differential equation is fulfilled
+#   at the initial time. In most cases weight(i)=1 is sufficient, due
+#   to the automatic scaling (if DESIRED(i) is not close to zero,
+#   scale(i) = DESIRED(i). Otherwise, the scaling is based on the
+#   nominal value (and maybe minimum and maximum values given in 
+#   column 3 and 4). If these values are zero, scale(i)=1 is used).
+#
+char initialDescription(238,130)
+dummy
+derdummy
+exact second of the year to start the week long simulation [s]
+If true, converters are max efficiency of efficiency curve [:#(type=Boolean)]
+max power of solar in kW
+how much bigger the converters are sized compared to their peak power [1]
+total capacity of battery in W-sec [J]
+battery charging rate in W [W]
+[1]
+[1]
+if true, use microinverters and power optimizers instead of inverters and mppt cc modules [:#(type=Boolean)]
+Serve as potential root for the reference angle theta [:#(type=Boolean)]
+Serve as definite root for the reference angle theta [:#(type=Boolean)]
+Complex power S[1] = P, S[2]= Q [W]
+Complex power S[1] = P, S[2]= Q [W]
+Phase shift with respect to reference angle [rad|deg]
+Voltage vector [V]
+Voltage vector [V]
+Optional vector of phase angles [rad|deg]
+Frequency of the source [Hz]
+RMS voltage of the source [V]
+Phase shift of the source [rad|deg]
+Absolute angle of rotating system as offset to thetaRef [rad|deg]
+If true, the load model is linearized [:#(type=Boolean)]
+Type of load model (e.g., steady state, dynamic, prescribed power consumption, etc.) [:#(type=Buildings.Electrical.Types.Load)]
+Nominal power (negative if consumed, positive if generated). Used if mode <> Buildings.Electrical.Types.Load.VariableZ_P_input [W]
+Nominal voltage (V_nominal >= 0) [V]
+Initialization mode for homotopy operator [:#(type=Buildings.Electrical.Types.InitMode)]
+Voltage vector [V]
+Phase powers [W]
+Phase powers [W]
+Power of the load (negative if consumed, positive if fed into the electrical grid) [W]
+der(Power of the load (negative if consumed, positive if fed into the electrical grid)) [W/s]
+Voltage vector [V]
+Hidden value of the input load for the conditional connector
+Internal representation of control signal, used to avoid singularity [1]
+Small number used to avoid a singularity if the power is zero [1]
+Small number used to avoid a singularity if the power is zero [1]
+Absolute value of the voltage difference between the two conductors (used by the linearized model) [V]
+Current vector [A]
+Current vector [A]
+der(Current vector) [A/s]
+der(Current vector) [A/s]
+Voltage vector [V]
+Current vector [A]
+der(Current vector) [A/s]
+Voltage drop between the two negative pins [V]
+der(Current flowing through the positive pins) [A/s]
+Current flowing through the negative pins [A]
+Power lost [W]
+der(Power lost) [W/s]
+Voltage on side 1 of the transformer (primary side) [V]
+Voltage on side 2 of the transformer (secondary side) [V]
+Maximum power expected through converter [W]
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+Pout/MaxP vs Eff table (Pout, Eff)
+If > 0, then will use efficiency data cooresponding to percentMax percent max power
+Primary side voltage is fixed at a value of V1 [:#(type=Boolean)]
+Secondary side voltage is fixed at a value of V2 [:#(type=Boolean)]
+Connect primary side of converter to ground [:#(type=Boolean)]
+Connect secondary side of converter to ground [:#(type=Boolean)]
+Converter efficiency for power flow equations [1]
+der(Converter efficiency for power flow equations) [s-1]
+Maximum power converter is rated to output [W]
+Output power percent of maxPower
+der(Output power percent of maxPower)
+Ratio of V secondary / V primary [1]
+Complex power transmitted at pin p [W]
+Complex power transmitted at pin p [W]
+der(Complex power transmitted at pin p) [W/s]
+Complex power transmitted at pin n [W]
+Complex power transmitted at pin n [W]
+der(Complex power transmitted at pin n) [W/s]
+Real power transmitted at pin p [W]
+der(Real power transmitted at pin p) [W/s]
+Real power transmitted at pin n [W]
+der(Real power transmitted at pin n) [W/s]
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Table matrix ( e.g., table=[u1, y1; u2, y2; u3, y3])
+Offset of output signal
+If true, then y=y1 for u<u1, and y=yMax for u>uMax [:#(type=Boolean)]
+Number of columns [:#(type=Integer)]
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Vector to take offset of output signal into account
+Number of inputs (= number of outputs) [:#(type=Integer)]
+= true, if table is defined on file or in function usertab [:#(type=Boolean)]
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+Table matrix (grid = first column; e.g., table=[0,2])
+= true, if info message that file is loading is to be printed [:#(type=Boolean)]
+Columns of table to be interpolated [:#(type=Integer)]
+Smoothness of table interpolation [:#(type=Modelica.Blocks.Types.Smoothness)]
+[:#(type=Integer)]
+= 1, if table was successfully read from file
+
+
+Power lost [W]
+wire resistance [Ohm]
+if true, resistance is zero [:#(type=Boolean)]
+Real power transmitted at pin p [W]
+Real power transmitted at pin n [W]
+Number of outputs [:#(type=Integer)]
+Connector of Real output signals
+Connector of Real output signals
+Connector of Real output signals
+Connector of Real output signals
+Connector of Real output signals
+Connector of Real output signals
+Connector of Real output signals
+Connector of Real output signals
+Connector of Real output signals
+Connector of Real output signals
+Connector of Real output signals
+Connector of Real output signals
+= true, if table is defined on file or in function usertab [:#(type=Boolean)]
+= true, if info message that file is loading is to be printed [:#(type=Boolean)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Columns of table to be interpolated [:#(type=Integer)]
+Smoothness of table interpolation [:#(type=Modelica.Blocks.Types.Smoothness)]
+Extrapolation of data outside the definition range [:#(type=Modelica.Blocks.Types.Extrapolation)]
+Offsets of output signals
+Output = offset for time < startTime [s]
+Minimum abscissa value defined in table [s]
+Maximum abscissa value defined in table [s]
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+Offsets of output signals
+[:#(type=Integer)]
+Next time event instant [s]
+= 1, if table was successfully read from file
+
